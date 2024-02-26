@@ -12,7 +12,7 @@ class PhoneRow {
     }
 
     public int getPhoneNumberCounter() {
-        return this.getPhones().size();
+        return this.phoneNumber.size();
     }
 
     public String toString() {
@@ -29,8 +29,7 @@ class PhoneRow {
 }
 
 class PhoneBook {
-    private int ai = 0;
-    private static HashMap<String, PhoneRow> phoneBook = new HashMap<>();
+    private HashMap<String, PhoneRow> phoneBook = new HashMap<>();
 
     public void add(String unitName, Integer phoneNum) {
         PhoneRow phoneRow = phoneBook.get(unitName);
@@ -38,17 +37,17 @@ class PhoneBook {
             phoneRow.getPhones().add(phoneNum);
         } else {
             phoneBook.put(unitName, new PhoneRow(unitName, phoneNum));
-            this.wasAdded(unitName);
         }
+        this.wasAdded(unitName);
     }
 
-    public static HashMap<String, PhoneRow> getPhoneBook() {
+    public HashMap<String, PhoneRow> getPhoneBook() {
         return phoneBook;
     }
 
     public void wasAdded(String unitName) {
         PhoneRow phoneRow = phoneBook.get(unitName);
-        String str = String.format("**** User %s has %d numbers",
+        String str = String.format("User %s has %d numbers",
                 phoneRow.getName(),
                 phoneRow.getPhoneNumberCounter()
         );
@@ -58,22 +57,10 @@ class PhoneBook {
 
 class Printer {
     public static void main(String[] args) {
-        String name1;
-        String name2;
-        int phone1;
-        int phone2;
-
-        if (args.length == 0) {
-            name1 = "Smirnov";
-            name2 = "Semenov";
-            phone1 = 123456;
-            phone2 = 654321;
-        } else {
-            name1 = args[0];
-            name2 = args[1];
-            phone1 = Integer.parseInt(args[2]);
-            phone2 = Integer.parseInt(args[3]);
-        }
+        String name1 = "Smirnov";
+        String name2 = "Semenov";
+        int phone1 = 123456;
+        int phone2 = 654321;
 
         PhoneBook myPhoneBook = new PhoneBook();
 
@@ -85,7 +72,7 @@ class Printer {
 
         System.out.println();
 
-        Map<String, PhoneRow> pb = PhoneBook.getPhoneBook();
+        Map<String, PhoneRow> pb = myPhoneBook.getPhoneBook();
         LinkedHashMap<String, PhoneRow> lhm = pb.entrySet().stream().sorted(
                 (e1, e2) -> Integer.compare(
                         e2.getValue().getPhoneNumberCounter(),
@@ -101,7 +88,7 @@ class Printer {
         );
 
         for (var item : lhm.entrySet()) {
-            System.out.println(item.toString());
+            System.out.println(item.getValue().toString());
         }
     }
 }
